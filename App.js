@@ -19,12 +19,17 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import StackNavigator from './src/navigators/StackNavigator';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
 
 const App = () => {
-  return <NavigationContainer></NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
+  );
 };
 
 const styles = StyleSheet.create({});
