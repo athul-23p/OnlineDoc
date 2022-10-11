@@ -3,14 +3,12 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../screens/HomeScreen';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {Image, Pressable, Text, View} from 'react-native';
-import {useContext} from 'react';
-import {AuthContext} from '../context/AuthContextProvider';
+import {useEffect, useState} from 'react';
+
 import LinearGradient from 'react-native-linear-gradient';
+import {getToken, removeToken} from '../utils/storage';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,14 +24,28 @@ const Screens = [
 
 function CustomDrawerContent(props) {
   const {navigation} = props;
-  const {token, handleLogout} = useContext(AuthContext);
-  // console.log(props);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    getToken().then(({token}) => setToken(token));
+  }, []);
+
+  const handleLogout = () => {
+    removeToken().then(() => navigation.navigate('SignIn'));
+  };
 
   return (
-    <LinearGradient colors={['#7F9BFE', '#5276ED']} style={{flex: 1}}>
-      <DrawerContentScrollView
-        {...props}
-        style={{paddingHorizontal: 15, paddingVertical: 20}}>
+    <LinearGradient
+      colors={['#7F12FE', '#5478F7']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 0}}
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        paddingVertical: 20,
+      }}>
+      <DrawerContentScrollView {...props}>
         <Pressable onPress={() => navigation.closeDrawer()}>
           <AntIcon name="close" size={30} color="white" />
         </Pressable>
@@ -75,27 +87,26 @@ function CustomDrawerContent(props) {
             </Text>
           ))}
         </View>
-
-        <Pressable
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            // position: 'absolute',
-            // bottom: 50,
-          }}
-          onPress={handleLogout}>
-          <MaterialIcon name="logout" size={40} color="white" />
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 18,
-              textTransform: 'uppercase',
-              marginLeft: 10,
-            }}>
-            Log Out
-          </Text>
-        </Pressable>
       </DrawerContentScrollView>
+      <Pressable
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          // position: 'absolute',
+          // bottom: 50,
+        }}
+        onPress={handleLogout}>
+        <MaterialIcon name="logout" size={40} color="white" />
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 18,
+            textTransform: 'uppercase',
+            marginLeft: 10,
+          }}>
+          Log Out
+        </Text>
+      </Pressable>
     </LinearGradient>
   );
 }

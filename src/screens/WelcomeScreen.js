@@ -6,9 +6,9 @@ import LinearGradient from 'react-native-linear-gradient';
 function WelcomeScreen({navigation}) {
   return (
     <LinearGradient
-      colors={['#7F9BFE', '#5478F7']}
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
+      colors={['#7F12FE', '#5478F7']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 0}}
       style={styles.container}>
       <Text style={[styles.title, styles.allUpperCase, styles.whiteText]}>
         Online doctor is always with you

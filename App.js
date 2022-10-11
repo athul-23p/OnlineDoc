@@ -7,46 +7,17 @@
  */
 
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useContext} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {
-  AuthContext,
-  AuthContextProvider,
-} from './src/context/AuthContextProvider';
+import React from 'react';
 
 import DrawerNavigator from './src/navigators/DrawerNavigator';
 import StackNavigator from './src/navigators/StackNavigator';
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-
 const App = () => {
-  const {token} = useContext(AuthContext);
-  console.log(token);
   return (
-    <AuthContextProvider>
-      <NavigationContainer>
-        {token !== null ? <DrawerNavigator /> : <StackNavigator />}
-      </NavigationContainer>
-    </AuthContextProvider>
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
   );
 };
 
-const Wrapper = props => {
-  return (
-    <AuthContextProvider>
-      <App />
-    </AuthContextProvider>
-  );
-};
-const styles = StyleSheet.create({});
-
-export default Wrapper;
+export default App;
