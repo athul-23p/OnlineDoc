@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import DrawerNavigator from './src/navigators/DrawerNavigator';
 import StackNavigator from './src/navigators/StackNavigator';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
@@ -27,7 +28,8 @@ import StackNavigator from './src/navigators/StackNavigator';
 const App = () => {
   return (
     <NavigationContainer>
-      <StackNavigator />
+      {/* <StackNavigator /> */}
+      <DrawerNavigator />
     </NavigationContainer>
   );
 };
