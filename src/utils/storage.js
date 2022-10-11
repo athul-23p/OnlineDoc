@@ -16,4 +16,19 @@ const removeToken = async () => {
   }
 };
 
-export {storeToken, removeToken};
+const getToken = async () => {
+  try {
+    let data = await AsyncStorage.getItem('user_token');
+    data = JSON.parse(data);
+    // console.log(data.token);
+    if (data) {
+      return {isLoggedIn: true, token: data.token};
+    } else {
+      return {isLoggedIn: false, token: null};
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {storeToken, removeToken, getToken};

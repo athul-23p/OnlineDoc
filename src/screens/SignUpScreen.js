@@ -23,8 +23,9 @@ function SignUpScreen({navigation}) {
 
   const handleSignUp = () => {
     if (email === '' || password === '') {
-      Alert.alert('Sign In', 'Fill Email & Password fields');
+      Alert.alert('Sign Up', 'Fill Email & Password fields');
     }
+
     fetch(`${API_URL}/api/register`, {
       method: 'post',
       headers: {
@@ -33,16 +34,20 @@ function SignUpScreen({navigation}) {
       body: JSON.stringify({email, password}),
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-      .then(() => {
-        ToastAndroid.show('Sign Up successfull', 2000);
-        setTimeout(() => navigation.navigate('SignIn'), 3000);
+      .then(data => {
+        let {error} = data;
+        if (error) {
+          Alert.alert('Sign Up Error', 'Something went wrong');
+        } else {
+          ToastAndroid.show('Sign Up successfull', 2000);
+          setTimeout(() => navigation.navigate('SignIn'), 3000);
+        }
       });
   };
 
   return (
     <View style={styles.container}>
-      <AuthTitle title="Sign In" />
+      <AuthTitle title="Sign Up" />
       <View style={{marginVertical: 20}}>
         <RoundEdgeInput
           placeholder={'E-mail'}
@@ -53,6 +58,7 @@ function SignUpScreen({navigation}) {
           placeholder={'Password'}
           onChangeTextHandler={handlePasswordInput}
           value={password}
+          secure={true}
         />
       </View>
 

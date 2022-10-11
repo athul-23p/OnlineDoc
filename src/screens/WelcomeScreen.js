@@ -5,11 +5,18 @@ import LinearGradient from 'react-native-linear-gradient';
 
 function WelcomeScreen({navigation}) {
   return (
-    <LinearGradient colors={['#8e2de2', '#4a00e0']} style={styles.container}>
+    <LinearGradient
+      colors={['#7F9BFE', '#5478F7']}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      style={styles.container}>
       <Text style={[styles.title, styles.allUpperCase, styles.whiteText]}>
         Online doctor is always with you
       </Text>
-      <Image style={styles.image} />
+      <Image
+        style={styles.image}
+        source={require('../../assets/images/logo.png')}
+      />
       <RoundEdgeButton
         title="get started"
         color="darkblue"
@@ -19,6 +26,7 @@ function WelcomeScreen({navigation}) {
         fontSize={22}
         onPressHandler={() => navigation.navigate('SignIn')}
       />
+
       <View style={{marginVertical: 30}}>
         <Text style={[styles.whiteText, styles.allUpperCase, styles.smallText]}>
           Don't have and account ?
@@ -59,7 +67,9 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 380,
+    width: 200,
     marginHorizontal: 40,
+    resizeMode: 'contain',
   },
 });
 

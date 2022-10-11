@@ -7,7 +7,7 @@
  */
 
 import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,8 +17,11 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import {
+  AuthContext,
+  AuthContextProvider,
+} from './src/context/AuthContextProvider';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import DrawerNavigator from './src/navigators/DrawerNavigator';
 import StackNavigator from './src/navigators/StackNavigator';
 
@@ -26,14 +29,24 @@ import StackNavigator from './src/navigators/StackNavigator';
  * LTI update could not be added via codemod */
 
 const App = () => {
+  const {token} = useContext(AuthContext);
+  console.log(token);
   return (
-    <NavigationContainer>
-      {/* <StackNavigator /> */}
-      <DrawerNavigator />
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        {token !== null ? <DrawerNavigator /> : <StackNavigator />}
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 };
 
+const Wrapper = props => {
+  return (
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+  );
+};
 const styles = StyleSheet.create({});
 
-export default App;
+export default Wrapper;

@@ -1,16 +1,19 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, Pressable, Alert} from 'react-native';
 import AuthTitle from '../components/AuthTitle';
 import RoundEdgeInput from '../components/RoundEdgeInput';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
+
+import CheckBox from '@react-native-community/checkbox';
 import RoundEdgeButton from '../components/RoundEdgeButton';
 import {API_URL} from '../config/api';
-import {storeToken} from '../utils/storage';
+import {AuthContext} from '../context/AuthContextProvider';
 
 function SignInScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+
+  const {handleLogin} = useContext(AuthContext);
 
   const handleEmailInput = text => setEmail(text);
   const handlePasswordInput = password => {
@@ -34,9 +37,7 @@ function SignInScreen({navigation}) {
         if (error) {
           Alert.alert('Sign In Error', 'Incorrect email or password');
         } else {
-          storeToken(token).then(() => {
-            console.log('token stored');
-          });
+          handleLogin(token);
         }
       });
   };
@@ -54,6 +55,7 @@ function SignInScreen({navigation}) {
           placeholder={'Password'}
           onChangeTextHandler={handlePasswordInput}
           value={password}
+          secure={true}
         />
       </View>
       <View
@@ -62,12 +64,14 @@ function SignInScreen({navigation}) {
           justifyContent: 'space-between',
           marginVertical: 20,
         }}>
-        <BouncyCheckbox
-          onPress={() => setRememberMe(prev => !prev)}
-          text="Remember Me"
-          isChecked={rememberMe}
-          textStyle={{textDecorationLine: 'none'}}
-        />
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <CheckBox
+            onValueChange={() => setRememberMe(prev => !prev)}
+            value={rememberMe}
+            textStyle={{textDecorationLine: 'none'}}
+          />
+          <Text>Remember Me</Text>
+        </View>
         <Pressable>
           <Text style={{color: '#aaa'}}>Forgot Password?</Text>
         </Pressable>
