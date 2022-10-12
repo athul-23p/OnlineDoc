@@ -79,9 +79,11 @@ function SignUpScreen({navigation}) {
           justifyContent: 'space-between',
           marginVertical: 20,
         }}>
-        <Text style={{color: '#aaa'}}>Already have an Account?</Text>
+        <Text style={{color: '#aaa', fontSize: 16}}>
+          Already have an Account?
+        </Text>
         <Pressable onPress={() => navigation.navigate('SignIn')}>
-          <Text style={{color: 'dodgerblue'}}>Sign In</Text>
+          <Text style={{color: 'dodgerblue', fontSize: 16}}>Sign In</Text>
         </Pressable>
       </View>
     </View>

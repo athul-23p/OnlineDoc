@@ -37,6 +37,8 @@ function SignInScreen({navigation}) {
           Alert.alert('Sign In Error', 'Incorrect email or password');
         } else {
           storeToken(token).then(() => {
+            setEmail('');
+            setPassword('');
             navigation.navigate('HomeN');
           });
         }
@@ -77,10 +79,10 @@ function SignInScreen({navigation}) {
               onValueChange={() => setRememberMe(prev => !prev)}
               value={rememberMe}
             />
-            <Text style={{color: 'black'}}>Remember Me</Text>
+            <Text style={{color: 'black', fontSize: 16}}>Remember Me</Text>
           </View>
           <Pressable>
-            <Text style={{color: '#aaa'}}>Forgot Password?</Text>
+            <Text style={{color: '#aaa', fontSize: 16}}>Forgot Password?</Text>
           </Pressable>
         </View>
         <RoundEdgeButton
@@ -99,9 +101,11 @@ function SignInScreen({navigation}) {
             justifyContent: 'space-between',
             marginVertical: 20,
           }}>
-          <Text style={{color: '#aaa'}}>Don't have Account?</Text>
+          <Text style={{color: '#aaa', fontSize: 16}}>Don't have Account?</Text>
           <Pressable onPress={() => navigation.navigate('SignUp')}>
-            <Text style={{color: 'dodgerblue'}}>Create Account</Text>
+            <Text style={{color: 'dodgerblue', fontSize: 16}}>
+              Create Account
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -116,6 +120,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'space-between',
   },
-  title: {},
 });
 export default SignInScreen;
