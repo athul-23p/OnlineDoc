@@ -92,8 +92,6 @@ function CustomDrawerContent(props) {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          // position: 'absolute',
-          // bottom: 50,
         }}
         onPress={handleLogout}>
         <MaterialIcon name="logout" size={40} color="white" />

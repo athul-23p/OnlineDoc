@@ -2,11 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
 function AuthTitle({title}) {
-  return (
-    // <View>
-    <Text style={styles.title}>{title}</Text>
-    // </View>
-  );
+  return <Text style={styles.title}>{title}</Text>;
 }
 const styles = StyleSheet.create({
   title: {
