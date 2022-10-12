@@ -4,11 +4,19 @@ import HomeScreen from '../screens/HomeScreen';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
-import {Image, Pressable, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  Text,
+  ToastAndroid,
+  View,
+  StyleSheet,
+} from 'react-native';
 import {useEffect, useState} from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
 import {getToken, removeToken} from '../utils/storage';
+import ListScreen from '../screens/ListScreen/ListScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,13 +39,16 @@ function CustomDrawerContent(props) {
   }, []);
 
   const handleLogout = () => {
-    removeToken().then(() => navigation.navigate('SignIn'));
+    removeToken().then(() => {
+      ToastAndroid.show('Log out successful', 2000);
+      navigation.navigate('SignIn');
+    });
   };
-
+  // eve.holt@reqres.in
   return (
     <LinearGradient
-      colors={['#7F12FE', '#5478F7']}
-      start={{x: 0, y: 1}}
+      colors={['#879DFF', '#5179F4']}
+      start={{x: 0, y: 0}}
       end={{x: 1, y: 0}}
       style={{
         flex: 1,
@@ -74,15 +85,11 @@ function CustomDrawerContent(props) {
         {/* <DrawerItemList {...props} /> */}
 
         <View style={{marginVertical: 10}}>
+          <Pressable onPress={() => navigation.navigate('ListDoctors')}>
+            <Text style={styles.menuLink}>Search</Text>
+          </Pressable>
           {Screens.map(screen => (
-            <Text
-              style={{
-                marginVertical: 8,
-                fontSize: 18,
-                fontWeight: '600',
-                color: 'white',
-              }}
-              key={Math.random()}>
+            <Text style={styles.menuLink} key={Math.random()}>
               {screen}
             </Text>
           ))}
@@ -119,8 +126,21 @@ function DrawerNavigator() {
         },
       }}>
       <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen
+        name="ListDoctors"
+        component={ListScreen}
+        options={{headerShown: false}}
+      />
     </Drawer.Navigator>
   );
 }
 
+const styles = StyleSheet.create({
+  menuLink: {
+    marginVertical: 8,
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'white',
+  },
+});
 export default DrawerNavigator;

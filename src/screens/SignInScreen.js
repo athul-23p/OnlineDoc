@@ -1,5 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
 import AuthTitle from '../components/AuthTitle';
 import RoundEdgeInput from '../components/RoundEdgeInput';
 
@@ -39,18 +46,19 @@ function SignInScreen({navigation}) {
           storeToken(token).then(() => {
             setEmail('');
             setPassword('');
-            navigation.navigate('HomeN');
+            ToastAndroid.show('Sign In successfull', 2000);
+            setTimeout(() => navigation.navigate('HomeN'), 1000);
           });
         }
       });
   };
 
-  /*useEffect(() => {
+  useEffect(() => {
     getToken().then(({token}) => {
       if (token) navigation.navigate('HomeN');
     });
   }, []);
-  */
+
   return (
     <View style={styles.container}>
       <View>

@@ -1,15 +1,17 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text, Image, StatusBar} from 'react-native';
 import RoundEdgeButton from '../components/RoundEdgeButton';
 import LinearGradient from 'react-native-linear-gradient';
 
 function WelcomeScreen({navigation}) {
   return (
     <LinearGradient
-      colors={['#7F12FE', '#5478F7']}
-      start={{x: 0, y: 1}}
-      end={{x: 1, y: 0}}
+      // colors={['#7F12FE', '#5478F7']}
+      colors={['#879DFF', '#5179F4']}
+      start={{x: 0.3, y: 0.3}}
+      end={{x: 0.7, y: 0.7}}
       style={styles.container}>
+      <StatusBar backgroundColor={'#879DFF'} />
       <Text style={[styles.title, styles.allUpperCase, styles.whiteText]}>
         Online doctor is always with you
       </Text>
