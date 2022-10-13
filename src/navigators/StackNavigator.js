@@ -1,5 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import DetailsScreen from '../screens/DetailsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -14,6 +15,7 @@ function StackNavigator(props) {
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="HomeN" component={DrawerNavigator} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

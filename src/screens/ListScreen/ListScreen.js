@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ToastAndroid,
-  ImageBackground,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import BackgroundWrapper from '../../components/BackgroundWrapper';
 import SearchBar from '../../components/SearchBar';
@@ -81,7 +74,7 @@ function ListScreen(props) {
   }, [page]);
 
   return (
-    <BackgroundWrapper>
+    <BackgroundWrapper style={{paddingTop: 20, paddingHorizontal: 10}}>
       <SearchBar onSubmitHandler={string => setQuery(string)} />
       {isLoading ? (
         <ActivityIndicator size={'large'} style={styles.loadingIndicator} />

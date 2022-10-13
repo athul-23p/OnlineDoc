@@ -1,12 +1,15 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Image, Text, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 function Card({person}) {
-  const {avatar, first_name, last_name} = person;
-
+  const {avatar, first_name, last_name, id} = person;
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate('Details', {id})}>
       <Image source={{uri: avatar}} style={styles.image} />
       <View style={{width: '60%'}}>
         <Text style={styles.name}>{`Dr ${first_name} ${last_name}`}</Text>
@@ -25,7 +28,7 @@ function Card({person}) {
         />
         <Text style={styles.ratingText}>4.3</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
