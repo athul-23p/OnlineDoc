@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // shadowColor: '#aaa',
     elevation: 10,
-    marginTop: 15,
+    marginVertical: 10,
     marginHorizontal: 6,
+    borderRadius: 10,
   },
   image: {
     width: 70,
