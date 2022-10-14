@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IonicIcon from 'react-native-vector-icons/Ionicons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const getUserDetails = async id => {
   try {
@@ -73,6 +73,7 @@ Aliquam ut porttitor leo a diam sollicitudin. Amet consectetur adipiscing elit u
             <Image source={{uri: user.avatar}} style={styles.avatar} />
           </View>
 
+          {/* stats section    */}
           <View
             style={{
               backgroundColor: 'white',
@@ -99,7 +100,7 @@ Aliquam ut porttitor leo a diam sollicitudin. Amet consectetur adipiscing elit u
               </View>
               <View style={[styles.row, styles.paddingHorizontal]}>
                 <View style={styles.flexRow}>
-                  <IonicIcon
+                  <IonIcon
                     name="location-sharp"
                     size={ICON_SIZE}
                     color={ICON_COLOR}
@@ -119,17 +120,19 @@ Aliquam ut porttitor leo a diam sollicitudin. Amet consectetur adipiscing elit u
 
             <View style={styles.ruler} />
 
+            {/* contact details */}
             <View styles={[styles.contactDetails]}>
               <View style={[styles.flexRow, styles.paddingHorizontal]}>
                 <Icon name="phone" size={ICON_SIZE} color={ICON_COLOR} />
                 <Text style={[styles.flexRowText]}>{user.phone}</Text>
               </View>
               <View style={[styles.flexRow, styles.paddingHorizontal]}>
-                <IonicIcon name="mail" size={ICON_SIZE} color={ICON_COLOR} />
+                <IonIcon name="mail" size={ICON_SIZE} color={ICON_COLOR} />
                 <Text style={[styles.flexRowText]}>{user.email}</Text>
               </View>
             </View>
 
+            {/* medical history */}
             <View style={styles.ruler} />
             <View styles={[styles.medicalHistory]}>
               <Text

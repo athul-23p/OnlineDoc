@@ -44,7 +44,7 @@ function CustomDrawerContent(props) {
       navigation.navigate('SignIn');
     });
   };
-  // eve.holt@reqres.in
+
   return (
     <LinearGradient
       colors={['#879DFF', '#5179F4']}

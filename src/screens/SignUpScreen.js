@@ -11,6 +11,24 @@ import AuthTitle from '../components/AuthTitle';
 import RoundEdgeInput from '../components/RoundEdgeInput';
 import RoundEdgeButton from '../components/RoundEdgeButton';
 import {API_URL} from '../config/api';
+import {KeyboardAwareScrollView} from '@pietile-native-kit/keyboard-aware-scrollview';
+
+const userSignUp = async user => {
+  try {
+    let res = await fetch(`${API_URL}/api/register`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 function SignUpScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -26,27 +44,19 @@ function SignUpScreen({navigation}) {
       Alert.alert('Sign Up', 'Fill Email & Password fields');
     }
 
-    fetch(`${API_URL}/api/register`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({email, password}),
-    })
-      .then(res => res.json())
-      .then(data => {
-        let {error} = data;
-        if (error) {
-          Alert.alert('Sign Up Error', 'Something went wrong');
-        } else {
-          ToastAndroid.show('Sign Up successfull', 2000);
-          setTimeout(() => navigation.navigate('SignIn'), 3000);
-        }
-      });
+    userSignUp({email, password}).then(data => {
+      let {error} = data;
+      if (error) {
+        Alert.alert('Sign Up Error', 'Something went wrong');
+      } else {
+        ToastAndroid.show('Sign Up successfull', 2000);
+        setTimeout(() => navigation.navigate('SignIn'), 3000);
+      }
+    });
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View>
         <AuthTitle title="Sign Up" />
         <View style={{marginVertical: 20}}>
@@ -86,7 +96,7 @@ function SignUpScreen({navigation}) {
           <Text style={{color: 'dodgerblue', fontSize: 16}}>Sign In</Text>
         </Pressable>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -97,6 +107,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'space-between',
   },
-  title: {},
 });
 export default SignUpScreen;

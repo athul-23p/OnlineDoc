@@ -6,6 +6,8 @@ import {
   Pressable,
   Alert,
   ToastAndroid,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import AuthTitle from '../components/AuthTitle';
 import RoundEdgeInput from '../components/RoundEdgeInput';
@@ -15,6 +17,23 @@ import RoundEdgeButton from '../components/RoundEdgeButton';
 import {API_URL} from '../config/api';
 
 import {getToken, storeToken} from '../utils/storage';
+import {KeyboardAwareScrollView} from '@pietile-native-kit/keyboard-aware-scrollview';
+
+const userSignIn = async user => {
+  try {
+    let res = await fetch(`${API_URL}/api/login`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 function SignInScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -30,27 +49,19 @@ function SignInScreen({navigation}) {
     if (email === '' || password === '') {
       Alert.alert('Sign In', 'Fill Email & Password fields');
     }
-    fetch(`${API_URL}/api/login`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({email, password}),
-    })
-      .then(res => res.json())
-      .then(data => {
-        let {error, token} = data;
-        if (error) {
-          Alert.alert('Sign In Error', 'Incorrect email or password');
-        } else {
-          storeToken(token).then(() => {
-            setEmail('');
-            setPassword('');
-            ToastAndroid.show('Sign In successfull', 2000);
-            setTimeout(() => navigation.navigate('HomeN'), 1000);
-          });
-        }
-      });
+    userSignIn({email, password}).then(data => {
+      let {error, token} = data;
+      if (error) {
+        Alert.alert('Sign In Error', 'Incorrect email or password');
+      } else {
+        storeToken(token).then(() => {
+          setEmail('');
+          setPassword('');
+          ToastAndroid.show('Sign In successfull', 2000);
+          setTimeout(() => navigation.navigate('HomeN'), 1000);
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -60,7 +71,7 @@ function SignInScreen({navigation}) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View>
         <AuthTitle title="Sign In" />
         <View style={{marginVertical: 20}}>
@@ -76,12 +87,7 @@ function SignInScreen({navigation}) {
             secure={true}
           />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 20,
-          }}>
+        <View style={styles.rowSpaceBetween}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <CheckBox
               onValueChange={() => setRememberMe(prev => !prev)}
@@ -103,12 +109,7 @@ function SignInScreen({navigation}) {
         />
       </View>
       <View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 20,
-          }}>
+        <View style={styles.rowSpaceBetween}>
           <Text style={{color: '#aaa', fontSize: 16}}>Don't have Account?</Text>
           <Pressable onPress={() => navigation.navigate('SignUp')}>
             <Text style={{color: 'dodgerblue', fontSize: 16}}>
@@ -117,7 +118,7 @@ function SignInScreen({navigation}) {
           </Pressable>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -127,6 +128,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
     justifyContent: 'space-between',
+  },
+  rowSpaceBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 20,
   },
 });
 export default SignInScreen;

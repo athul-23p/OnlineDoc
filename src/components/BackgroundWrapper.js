@@ -1,6 +1,7 @@
 import React from 'react';
 import {ImageBackground, StatusBar, StyleSheet} from 'react-native';
 
+// wrapper component for list & detail screens
 function BackgroundWrapper({children, style}) {
   return (
     <ImageBackground
