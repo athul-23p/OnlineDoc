@@ -42,6 +42,7 @@ function SignUpScreen({navigation}) {
   const handleSignUp = () => {
     if (email === '' || password === '') {
       Alert.alert('Sign Up', 'Fill Email & Password fields');
+      return;
     }
 
     userSignUp({email, password}).then(data => {

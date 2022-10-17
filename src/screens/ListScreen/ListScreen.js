@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import BackgroundWrapper from '../../components/BackgroundWrapper';
+import ScrollToTopButton from '../../components/ScrollToTopButton';
 import SearchBar from '../../components/SearchBar';
 import {API_URL} from '../../config/api';
 import Card from './components/Card';
@@ -28,12 +29,17 @@ const getDoctorsCount = async () => {
   }
 };
 
+const threshold = 300;
 function ListScreen(props) {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [contentOffset, setContentOffset] = useState(0);
+
   const [query, setQuery] = useState('');
+
+  const flatListRef = useRef();
 
   const renderItem = ({item}) => <Card person={item} />;
 
@@ -79,31 +85,42 @@ function ListScreen(props) {
       {isLoading ? (
         <ActivityIndicator size={'large'} style={styles.loadingIndicator} />
       ) : (
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item?.id}
-          ListEmptyComponent={() => (
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: 'gray'}}>No search results found</Text>
-            </View>
-          )}
-          ListFooterComponent={() => {
-            console.log(page, totalPages);
-            return page !== totalPages ? <ActivityIndicator /> : null;
-          }}
-          onEndReachedThreshold={0.1}
-          onEndReached={() => {
-            if (page < totalPages) {
-              setPage(prev => prev + 1);
+        <>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={item => item?.id}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: 'gray'}}>No search results found</Text>
+              </View>
+            )}
+            ListFooterComponent={() => {
+              // console.log(page, totalPages);
+              return page !== totalPages ? <ActivityIndicator /> : null;
+            }}
+            onEndReachedThreshold={0.3}
+            onEndReached={() => {
+              if (page < totalPages) {
+                setPage(prev => prev + 1);
+              }
+            }}
+            onScroll={e => setContentOffset(e.nativeEvent.contentOffset.y)}
+            ref={flatListRef}
+            style={{height: '90%'}}
+          />
+          <ScrollToTopButton
+            style={{position: 'absolute', bottom: 20, right: 20}}
+            onPressHandler={() =>
+              flatListRef.current?.scrollToOffset({offset: 0})
             }
-          }}
-          style={{height: '90%'}}
-        />
+            isVisible={contentOffset > threshold}
+          />
+        </>
       )}
     </BackgroundWrapper>
   );

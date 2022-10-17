@@ -16,8 +16,9 @@ import CheckBox from '@react-native-community/checkbox';
 import RoundEdgeButton from '../components/RoundEdgeButton';
 import {API_URL} from '../config/api';
 
-import {getToken, storeToken} from '../utils/storage';
+import {storeToken} from '../utils/storage';
 import {KeyboardAwareScrollView} from '@pietile-native-kit/keyboard-aware-scrollview';
+import {CommonActions} from '@react-navigation/native';
 
 const userSignIn = async user => {
   try {
@@ -48,6 +49,7 @@ function SignInScreen({navigation}) {
   const handleSignIn = () => {
     if (email === '' || password === '') {
       Alert.alert('Sign In', 'Fill Email & Password fields');
+      return;
     }
     userSignIn({email, password}).then(data => {
       let {error, token} = data;
@@ -58,17 +60,18 @@ function SignInScreen({navigation}) {
           setEmail('');
           setPassword('');
           ToastAndroid.show('Sign In successfull', 2000);
-          setTimeout(() => navigation.navigate('HomeN'), 1000);
+
+          // reset navigation state :
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'HomeN'}],
+            }),
+          );
         });
       }
     });
   };
-
-  useEffect(() => {
-    getToken().then(({token}) => {
-      if (token) navigation.navigate('HomeN');
-    });
-  }, []);
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>

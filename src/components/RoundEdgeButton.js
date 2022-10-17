@@ -11,26 +11,34 @@ function RoundEdgeButton({
   fontSize,
 }) {
   return (
-    <Pressable
-      style={[styles.button, {backgroundColor, width, height}]}
-      onPress={onPressHandler}
-      android_ripple={{color: '#aaa'}}>
-      <Text style={[styles.buttonText, {color, fontSize: fontSize || 18}]}>
-        {title}
-      </Text>
-    </Pressable>
+    <View style={[styles.container, {backgroundColor, width, height}]}>
+      <Pressable
+        style={[styles.button, {}]}
+        onPress={onPressHandler}
+        android_ripple={{color: '#aaa'}}>
+        <Text style={[styles.buttonText, {color, fontSize: fontSize || 18}]}>
+          {title}
+        </Text>
+      </Pressable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  container: {
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginVertical: 20,
+    overflow: 'hidden',
+  },
+  button: {
+    width: '100%',
+    height: '100%',
   },
   buttonText: {
+    flex: 1,
     textTransform: 'uppercase',
+    textAlign: 'center',
+    textAlignVertical: 'center',
     fontWeight: '600',
   },
 });

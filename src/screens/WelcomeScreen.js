@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, Text, Image, StatusBar} from 'react-native';
 import RoundEdgeButton from '../components/RoundEdgeButton';
 import LinearGradient from 'react-native-linear-gradient';
+import {getToken} from '../utils/storage';
 
 function WelcomeScreen({navigation}) {
+  useEffect(() => {
+    getToken().then(({token}) => {
+      if (token) navigation.replace('HomeN');
+    });
+  }, []);
+
   return (
     <LinearGradient
-      // colors={['#7F12FE', '#5478F7']}
       colors={['#879DFF', '#5179F4']}
       start={{x: 0.3, y: 0.3}}
       end={{x: 0.7, y: 0.7}}

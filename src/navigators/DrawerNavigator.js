@@ -17,6 +17,7 @@ import {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {getToken, removeToken} from '../utils/storage';
 import ListScreen from '../screens/ListScreen/ListScreen';
+import {CommonActions} from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -41,7 +42,12 @@ function CustomDrawerContent(props) {
   const handleLogout = () => {
     removeToken().then(() => {
       ToastAndroid.show('Log out successful', 2000);
-      navigation.navigate('SignIn');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'SignIn'}],
+        }),
+      );
     });
   };
 
