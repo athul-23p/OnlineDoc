@@ -18,6 +18,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {getToken, removeToken} from '../utils/storage';
 import ListScreen from '../screens/ListScreen/ListScreen';
 import {CommonActions} from '@react-navigation/native';
+import BasicDetailsFormScreen from '../screens/BasicDetailsFormScreen';
+import QualificationFormScreen from '../screens/QualificationForm/QualificationFormScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -94,6 +96,10 @@ function CustomDrawerContent(props) {
           <Pressable onPress={() => navigation.navigate('ListDoctors')}>
             <Text style={styles.menuLink}>Search</Text>
           </Pressable>
+
+          <Pressable onPress={() => navigation.navigate('BasicDetails')}>
+            <Text style={styles.menuLink}>Edit Profile</Text>
+          </Pressable>
           {Screens.map(screen => (
             <Text style={styles.menuLink} key={Math.random()}>
               {screen}
@@ -136,6 +142,11 @@ function DrawerNavigator() {
         name="ListDoctors"
         component={ListScreen}
         options={{headerShown: false}}
+      />
+      <Drawer.Screen name="BasicDetails" component={BasicDetailsFormScreen} />
+      <Drawer.Screen
+        name="QualificationDetails"
+        component={QualificationFormScreen}
       />
     </Drawer.Navigator>
   );

@@ -1,7 +1,13 @@
 import React from 'react';
 import {TextInput, StyleSheet} from 'react-native';
 
-function RoundEdgeInput({placeholder, onChangeTextHandler, value, secure}) {
+function RoundEdgeInput({
+  placeholder,
+  onChangeTextHandler,
+  value,
+  secure,
+  style,
+}) {
   if (secure) {
   }
   return (
@@ -9,7 +15,7 @@ function RoundEdgeInput({placeholder, onChangeTextHandler, value, secure}) {
       placeholder={placeholder}
       onChangeText={onChangeTextHandler}
       secureTextEntry={secure}
-      style={styles.input}
+      style={[styles.input, {...style}]}
       value={value}
     />
   );
