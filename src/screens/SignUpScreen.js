@@ -76,10 +76,12 @@ function SignUpScreen({navigation}) {
 
         <RoundEdgeButton
           title="Sign Up"
-          color="white"
-          backgroundColor="#f24e85"
-          width="100%"
-          height={52}
+          stylesContainer={{
+            backgroundColor: '#f24e85',
+            width: '100%',
+            height: 52,
+          }}
+          stylesText={{color: 'white'}}
           onPressHandler={handleSignUp}
         />
       </View>

@@ -7,7 +7,10 @@ function FormInput({label, onChangeTextHandler, style}) {
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
 
-      <RoundEdgeInput onChangeTextHandler={onChangeTextHandler} />
+      <RoundEdgeInput
+        onChangeTextHandler={onChangeTextHandler}
+        style={{marginVertical: 5}}
+      />
     </View>
   );
 }

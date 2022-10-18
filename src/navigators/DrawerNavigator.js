@@ -18,8 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {getToken, removeToken} from '../utils/storage';
 import ListScreen from '../screens/ListScreen/ListScreen';
 import {CommonActions} from '@react-navigation/native';
-import BasicDetailsFormScreen from '../screens/BasicDetailsFormScreen';
-import QualificationFormScreen from '../screens/QualificationForm/QualificationFormScreen';
+import EditProfileStackNavigator from './EditProfileStackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -97,7 +96,7 @@ function CustomDrawerContent(props) {
             <Text style={styles.menuLink}>Search</Text>
           </Pressable>
 
-          <Pressable onPress={() => navigation.navigate('BasicDetails')}>
+          <Pressable onPress={() => navigation.navigate('EditProfile')}>
             <Text style={styles.menuLink}>Edit Profile</Text>
           </Pressable>
           {Screens.map(screen => (
@@ -143,10 +142,10 @@ function DrawerNavigator() {
         component={ListScreen}
         options={{headerShown: false}}
       />
-      <Drawer.Screen name="BasicDetails" component={BasicDetailsFormScreen} />
       <Drawer.Screen
-        name="QualificationDetails"
-        component={QualificationFormScreen}
+        name="EditProfile"
+        component={EditProfileStackNavigator}
+        options={{title: 'Edit Profile'}}
       />
     </Drawer.Navigator>
   );

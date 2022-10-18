@@ -27,11 +27,8 @@ function WelcomeScreen({navigation}) {
       />
       <RoundEdgeButton
         title="get started"
-        color="darkblue"
-        backgroundColor="white"
-        width={300}
-        height={60}
-        fontSize={22}
+        stylesContainer={{backgroundColor: 'white', width: 300, height: 60}}
+        stylesText={{color: 'darkblue', fontSize: 22}}
         onPressHandler={() => navigation.navigate('SignIn')}
       />
 

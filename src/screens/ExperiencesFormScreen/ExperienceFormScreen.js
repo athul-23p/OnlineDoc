@@ -1,60 +1,63 @@
 import {KeyboardAwareScrollView} from '@pietile-native-kit/keyboard-aware-scrollview';
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Alert} from 'react-native';
-
 import {useDispatch, useSelector} from 'react-redux';
+import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Experience} from '../../utils/experience';
+import EFInputGroup from './components/EFInputGroup';
+import {addExperienceDetails} from '../../redux/actions';
 import RoundEdgeButton from '../../components/RoundEdgeButton';
-import {addQualificationDetails} from '../../redux/actions';
-import {Qualification} from '../../utils/qualification';
-import QFInputGroup from './components/QFInputGroup';
-import formStyle from './../../styles/forms';
+import formStyle from '../../styles/forms';
 import {emptyField, isNum} from '../../utils/validate';
 
-function QualificationFormScreen({navigation}) {
-  const [qualifications, setQualifications] = useState([new Qualification()]);
+function ExperienceFormScreen({navigation}) {
+  const [experiences, setExperiences] = useState([new Experience()]);
   const dispatch = useDispatch();
-
-  // adds a new qualification obj to qualifications
+  // adds a new experience obj to experiences
   const handleAdd = () => {
-    setQualifications([...qualifications, new Qualification()]);
+    setExperiences([...experiences, new Qualification()]);
   };
 
-  // updates an entry in qualifications
-  const handleUpdateQualification = data => {
+  // updates an entry in experiences
+  const handleUpdateExperiences = data => {
     console.log(data);
-    let update = qualifications.map(item => {
+    let update = experiences.map(item => {
       if (item.id == data.id) {
         item = {...item, ...data};
       }
       return item;
     });
     console.log(update);
-    setQualifications(update);
+    setExperiences(update);
   };
 
-  // dispatch action to update qualification field & navigate to next screen
+  // dispatch action to update experience field & navigate to next screen
   const handleNext = () => {
-    for (let qualificaton of qualifications) {
-      if (!emptyField(qualificaton)) {
+    for (let experience of experiences) {
+      if (!emptyField(experience)) {
         Alert.alert('Form Error', 'Fill all the fields');
         return;
       }
 
-      if (!isNum(qualificaton, 1950, 2022, 'from', 'to')) {
+      if (!isNum(experience, 1950, 2022, 'from', 'to')) {
         Alert.alert('Form Error', 'From & To fields should be a valid number');
         return;
       }
     }
-    dispatch(addQualificationDetails(qualifications));
-    navigation.navigate('ExperienceDetails');
+
+    dispatch(addExperienceDetails(experiences));
+    navigation.navigate('Preview');
   };
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={formStyle.container}>
       <View>
-        <Text style={[formStyle.title]}>Qualification </Text>
-        {qualifications.map(data => (
-          <QFInputGroup data={data} onSave={handleUpdateQualification} />
+        <Text style={[formStyle.title]}>Experience</Text>
+        {experiences?.map(data => (
+          <EFInputGroup
+            key={data.id}
+            data={data}
+            onSave={handleUpdateExperiences}
+          />
         ))}
 
         <RoundEdgeButton
@@ -68,7 +71,6 @@ function QualificationFormScreen({navigation}) {
           onPressHandler={handleAdd}
         />
       </View>
-
       <RoundEdgeButton
         title="Next"
         stylesContainer={{
@@ -83,4 +85,4 @@ function QualificationFormScreen({navigation}) {
   );
 }
 
-export default QualificationFormScreen;
+export default ExperienceFormScreen;

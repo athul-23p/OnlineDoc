@@ -8,8 +8,6 @@ function RoundEdgeInput({
   secure,
   style,
 }) {
-  if (secure) {
-  }
   return (
     <TextInput
       placeholder={placeholder}

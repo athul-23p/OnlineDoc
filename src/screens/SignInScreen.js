@@ -104,10 +104,12 @@ function SignInScreen({navigation}) {
         </View>
         <RoundEdgeButton
           title="Sign In"
-          color="white"
-          backgroundColor="#f24e85"
-          width="100%"
-          height={52}
+          stylesContainer={{
+            backgroundColor: '#f24e85',
+            width: '100%',
+            height: 52,
+          }}
+          stylesText={{color: 'white'}}
           onPressHandler={handleSignIn}
         />
       </View>

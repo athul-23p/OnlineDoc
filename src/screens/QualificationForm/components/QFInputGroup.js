@@ -1,38 +1,54 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ToastAndroid} from 'react-native';
+import RoundEdgeButton from '../../../components/RoundEdgeButton';
 import RoundEdgeInput from '../../../components/RoundEdgeInput';
+import styles from '../../../styles/forms';
 
-function QFInputGroup({data}) {
-  const [formData, setFormData] = useState({institution: ''});
+function QFInputGroup({data, onSave}) {
+  const [formData, setFormData] = useState(data);
+
+  const handleInput = key => text => {
+    setFormData({...formData, [key]: text});
+  };
+
+  const handleSave = () => {
+    // add validation here
+
+    onSave(formData);
+    ToastAndroid.show('data updated', 1000);
+  };
   return (
-    <View>
+    <View key={data.id}>
       <RoundEdgeInput
-        placeholder={'10th/12th/UG/PG'}
-        style={{marginVertical: 8}}
+        placeholder={'Course...'}
+        style={{...styles.input}}
+        onChangeTextHandler={handleInput('course')}
       />
       <RoundEdgeInput
-        placeholder={'School/College ...'}
-        style={{marginVertical: 8}}
+        placeholder={'Institution ...'}
+        style={{...styles.input}}
+        onChangeTextHandler={handleInput('institution')}
       />
       <View style={styles.flexRow}>
         <RoundEdgeInput
           placeholder={'From Year'}
-          style={{width: '40%', marginVertical: 8}}
+          style={{...styles.flexRowItem, ...styles.input}}
+          onChangeTextHandler={handleInput('from')}
         />
         <RoundEdgeInput
           placeholder={'To Year'}
-          style={{width: '40%', marginVertical: 8}}
+          style={{...styles.flexRowItem, ...styles.input}}
+          onChangeTextHandler={handleInput('to')}
+        />
+        <RoundEdgeButton
+          title="save"
+          stylesContainer={{height: 30, width: '30%'}}
+          stylesText={{fontSize: 16}}
+          onPressHandler={() => handleSave()}
         />
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {},
-  flexRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});
 export default QFInputGroup;

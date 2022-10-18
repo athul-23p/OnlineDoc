@@ -1,24 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, Pressable, Text} from 'react-native';
 
-function RoundEdgeButton({
-  title,
-  onPressHandler,
-  backgroundColor,
-  color,
-  width,
-  height,
-  fontSize,
-}) {
+function RoundEdgeButton({title, onPressHandler, stylesContainer, stylesText}) {
   return (
-    <View style={[styles.container, {backgroundColor, width, height}]}>
+    <View style={[styles.container, stylesContainer]}>
       <Pressable
-        style={[styles.button, {}]}
+        style={[styles.button]}
         onPress={onPressHandler}
         android_ripple={{color: '#aaa'}}>
-        <Text style={[styles.buttonText, {color, fontSize: fontSize || 18}]}>
-          {title}
-        </Text>
+        <Text style={[styles.buttonText, stylesText]}>{title}</Text>
       </Pressable>
     </View>
   );
@@ -40,6 +30,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     fontWeight: '600',
+    fontSize: 18,
   },
 });
 export default RoundEdgeButton;
