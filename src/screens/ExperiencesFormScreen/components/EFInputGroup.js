@@ -12,14 +12,12 @@ function EFInputGroup({data, onSave}) {
   };
 
   const handleSave = () => {
-    // add validation here
-
     onSave(formData);
     ToastAndroid.show('data updated', 1000);
   };
 
   return (
-    <View key={data.id}>
+    <View>
       <RoundEdgeInput
         placeholder={'Company'}
         style={{...styles.input}}

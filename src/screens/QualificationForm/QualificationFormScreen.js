@@ -54,7 +54,11 @@ function QualificationFormScreen({navigation}) {
       <View>
         <Text style={[formStyle.title]}>Qualification </Text>
         {qualifications.map(data => (
-          <QFInputGroup data={data} onSave={handleUpdateQualification} />
+          <QFInputGroup
+            data={data}
+            onSave={handleUpdateQualification}
+            key={data.id}
+          />
         ))}
 
         <RoundEdgeButton

@@ -14,7 +14,7 @@ function ExperienceFormScreen({navigation}) {
   const dispatch = useDispatch();
   // adds a new experience obj to experiences
   const handleAdd = () => {
-    setExperiences([...experiences, new Qualification()]);
+    setExperiences([...experiences, new Experience()]);
   };
 
   // updates an entry in experiences

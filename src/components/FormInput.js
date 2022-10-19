@@ -9,7 +9,7 @@ function FormInput({label, onChangeTextHandler, style}) {
 
       <RoundEdgeInput
         onChangeTextHandler={onChangeTextHandler}
-        style={{marginVertical: 5}}
+        style={{...styles.input}}
       />
     </View>
   );
@@ -18,6 +18,6 @@ function FormInput({label, onChangeTextHandler, style}) {
 const styles = StyleSheet.create({
   container: {},
   label: {},
-  input: {},
+  input: {marginVertical: 5},
 });
 export default FormInput;
