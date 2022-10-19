@@ -1,43 +1,50 @@
 import {KeyboardAwareScrollView} from '@pietile-native-kit/keyboard-aware-scrollview';
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Alert} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import FormInput from '../components/FormInput';
 import RoundEdgeButton from '../components/RoundEdgeButton';
 import formStyle from '../styles/forms';
 import {addBasicDetails} from '../redux/actions';
-import {emptyField} from '../utils/validate';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers//yup';
+import * as yup from 'yup';
 
 /**
  * Edit profile S1
  * header : Basic Details
  * form
  *  name : {first,last}
- *
  *  mobile no
- *  dob
  *  email
  * next btn (dispatch,navigate to qualification)
  *
  */
 
+const BasicDetailsSchema = yup.object().shape({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup.string().required().email(),
+  mobile: yup.string().length(10, 'Enter 10 digit mobile number'),
+});
 function BasicDetailsFormScreen({navigation}) {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [email, setEmail] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      mobile: '',
+    },
+    resolver: yupResolver(BasicDetailsSchema),
+  });
   const dispatch = useDispatch();
-  const handleNext = () => {
-    const basicDetails = {firstName, lastName, mobile, email};
-
-    // validate : empty fields
-    if (!emptyField(basicDetails)) {
-      Alert.alert('Form error', 'Fill all the fields');
-      return;
-    }
-
-    console.log('clicked next', basicDetails);
-    dispatch(addBasicDetails(basicDetails));
+  const handleNext = data => {
+    console.log('clicked next', data);
+    dispatch(addBasicDetails(data));
     navigation.navigate('QualificationDetails');
   };
 
@@ -46,22 +53,57 @@ function BasicDetailsFormScreen({navigation}) {
       <View>
         <Text style={formStyle.title}>Basic Details</Text>
         <View style={styles.form}>
-          <FormInput
-            label={'First Name'}
-            onChangeTextHandler={text => setFirstName(text)}
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <FormInput
+                label={'First Name'}
+                onChangeTextHandler={onChange}
+                value={value}
+              />
+            )}
+            name="firstName"
           />
-          <FormInput
-            label="Last Name"
-            onChangeTextHandler={text => setLastName(text)}
+          {errors.firstName && <Text>This field is required.</Text>}
+
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <FormInput
+                label="Last Name"
+                onChangeTextHandler={onChange}
+                value={value}
+              />
+            )}
+            name="lastName"
           />
-          <FormInput
-            label={'Email'}
-            onChangeTextHandler={text => setEmail(text)}
+          {errors.lastName && <Text>This field is required.</Text>}
+
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <FormInput
+                label={'Email'}
+                onChangeTextHandler={onChange}
+                value={value}
+              />
+            )}
+            name="email"
           />
-          <FormInput
-            label={'Mobile No'}
-            onChangeTextHandler={text => setMobile(text)}
+          {errors.email && <Text>{errors.email.message}</Text>}
+
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <FormInput
+                label={'Mobile No'}
+                onChangeTextHandler={onChange}
+                value={value}
+              />
+            )}
+            name="mobile"
           />
+          {errors.mobile && <Text>{errors.mobile}</Text>}
         </View>
       </View>
       <RoundEdgeButton
@@ -72,7 +114,7 @@ function BasicDetailsFormScreen({navigation}) {
           height: 60,
         }}
         stylesText={{fontSize: 18, color: 'white'}}
-        onPressHandler={handleNext}
+        onPressHandler={handleSubmit(handleNext)}
       />
     </KeyboardAwareScrollView>
   );

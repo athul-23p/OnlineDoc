@@ -13,6 +13,21 @@ import RoundEdgeButton from '../components/RoundEdgeButton';
 import {API_URL} from '../config/api';
 import {KeyboardAwareScrollView} from '@pietile-native-kit/keyboard-aware-scrollview';
 
+import {useForm, Controller} from 'react-hook-form';
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
+
+const UserSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('This is a required field')
+    .email('Not a valid email'),
+  password: yup
+    .string()
+    .required('This is a required field')
+    .min(5, 'Too short'),
+});
+
 const userSignUp = async user => {
   try {
     let res = await fetch(`${API_URL}/api/register`, {
@@ -31,27 +46,26 @@ const userSignUp = async user => {
 };
 
 function SignUpScreen({navigation}) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(UserSchema),
+  });
 
-  const handleEmailInput = text => setEmail(text);
-  const handlePasswordInput = password => {
-    setPassword(password);
-  };
-
-  const handleSignUp = () => {
-    if (email === '' || password === '') {
-      Alert.alert('Sign Up', 'Fill Email & Password fields');
-      return;
-    }
-
-    userSignUp({email, password}).then(data => {
+  const handleSignUp = data => {
+    userSignUp({...data}).then(data => {
       let {error} = data;
       if (error) {
         Alert.alert('Sign Up Error', 'Something went wrong');
       } else {
         ToastAndroid.show('Sign Up successfull', 2000);
-        setTimeout(() => navigation.navigate('SignIn'), 3000);
+        setTimeout(() => navigation.navigate('SignIn'), 1000);
       }
     });
   };
@@ -61,17 +75,32 @@ function SignUpScreen({navigation}) {
       <View>
         <AuthTitle title="Sign Up" />
         <View style={{marginVertical: 20}}>
-          <RoundEdgeInput
-            placeholder={'E-mail'}
-            onChangeTextHandler={handleEmailInput}
-            value={email}
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <RoundEdgeInput
+                placeholder={'E-mail'}
+                onChangeTextHandler={onChange}
+                value={value}
+              />
+            )}
+            name="email"
           />
-          <RoundEdgeInput
-            placeholder={'Password'}
-            onChangeTextHandler={handlePasswordInput}
-            value={password}
-            secure={true}
+          {errors.email && <Text>{errors.email.message}</Text>}
+
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <RoundEdgeInput
+                placeholder={'Password'}
+                onChangeTextHandler={onChange}
+                value={value}
+                secure={true}
+              />
+            )}
+            name="password"
           />
+          {errors.password && <Text>{errors.password.message}</Text>}
         </View>
 
         <RoundEdgeButton
@@ -82,7 +111,7 @@ function SignUpScreen({navigation}) {
             height: 52,
           }}
           stylesText={{color: 'white'}}
-          onPressHandler={handleSignUp}
+          onPressHandler={handleSubmit(handleSignUp)}
         />
       </View>
 
