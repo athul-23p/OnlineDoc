@@ -1,5 +1,6 @@
 function emptyField(data) {
   for (let prop in data) {
+    // console.log(prop, data[prop]);
     if (data[prop] === '') return false;
   }
   return true;

@@ -22,11 +22,20 @@ import * as yup from 'yup';
  */
 
 const BasicDetailsSchema = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  email: yup.string().required().email(),
-  mobile: yup.string().length(10, 'Enter 10 digit mobile number'),
+  firstName: yup.string().required('This a required field'),
+  lastName: yup.string().required('This a required field'),
+  email: yup
+    .string()
+    .required('This a required field')
+    .email('Not a valid email'),
+  mobile: yup
+    .string()
+    .matches(
+      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+      'Not a valid phone number',
+    ),
 });
+
 function BasicDetailsFormScreen({navigation}) {
   const {
     control,
@@ -64,7 +73,7 @@ function BasicDetailsFormScreen({navigation}) {
             )}
             name="firstName"
           />
-          {errors.firstName && <Text>This field is required.</Text>}
+          {errors?.firstName && <Text>This field is required.</Text>}
 
           <Controller
             control={control}
@@ -77,7 +86,7 @@ function BasicDetailsFormScreen({navigation}) {
             )}
             name="lastName"
           />
-          {errors.lastName && <Text>This field is required.</Text>}
+          {errors?.lastName && <Text>This field is required.</Text>}
 
           <Controller
             control={control}
@@ -90,7 +99,7 @@ function BasicDetailsFormScreen({navigation}) {
             )}
             name="email"
           />
-          {errors.email && <Text>{errors.email.message}</Text>}
+          {errors?.email && <Text>{errors.email.message}</Text>}
 
           <Controller
             control={control}
@@ -103,7 +112,7 @@ function BasicDetailsFormScreen({navigation}) {
             )}
             name="mobile"
           />
-          {errors.mobile && <Text>{errors.mobile}</Text>}
+          {errors?.mobile && <Text>{errors.mobile.message}</Text>}
         </View>
       </View>
       <RoundEdgeButton

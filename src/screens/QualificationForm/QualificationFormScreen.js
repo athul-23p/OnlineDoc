@@ -35,6 +35,7 @@ function QualificationFormScreen({navigation}) {
   // dispatch action to update qualification field & navigate to next screen
   const handleNext = () => {
     for (let qualificaton of qualifications) {
+      console.log(qualificaton);
       if (!emptyField(qualificaton)) {
         Alert.alert('Form Error', 'Fill all the fields');
         return;
